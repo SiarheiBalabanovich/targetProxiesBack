@@ -1,0 +1,15 @@
+Collecting python-jose
+  Using cached python_jose-3.3.0-py2.py3-none-any.whl.metadata (5.4 kB)
+Collecting ecdsa!=0.15 (from python-jose)
+  Using cached ecdsa-0.19.0-py2.py3-none-any.whl.metadata (29 kB)
+Collecting rsa (from python-jose)
+  Using cached rsa-4.9-py3-none-any.whl.metadata (4.2 kB)
+Collecting pyasn1 (from python-jose)
+  Using cached pyasn1-0.6.0-py2.py3-none-any.whl.metadata (8.3 kB)
+Requirement already satisfied: six>=1.9.0 in /home/ven9/.pyenv/versions/3.11.5/envs/env311/lib/python3.11/site-packages (from ecdsa!=0.15->python-jose) (1.16.0)
+Using cached python_jose-3.3.0-py2.py3-none-any.whl (33 kB)
+Using cached ecdsa-0.19.0-py2.py3-none-any.whl (149 kB)
+Using cached pyasn1-0.6.0-py2.py3-none-any.whl (85 kB)
+Using cached rsa-4.9-py3-none-any.whl (34 kB)
+Installing collected packages: pyasn1, ecdsa, rsa, python-jose
+Successfully installed ecdsa-0.19.0 pyasn1-0.6.0 python-jose-3.3.0 rsa-4.9
