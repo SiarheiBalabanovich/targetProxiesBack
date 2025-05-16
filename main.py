@@ -52,7 +52,8 @@ async def lifespan(app: FastAPI):
     listener.stop()
 
 
-app = FastAPI(lifespan=lifespan)
+# app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan, redirect_slashes=False)
 
 
 origins = [
@@ -61,6 +62,7 @@ origins = [
     "http://localhost",
     "http://localhost:8080",
     "https://d3b0gjqgkudb0o.cloudfront.net",
+    "https://app.targetedproxies-dev.com",
     'http://localhost:5173'
 ]
 
