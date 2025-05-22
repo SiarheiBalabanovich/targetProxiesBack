@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -55,7 +55,6 @@ async def lifespan(app: FastAPI):
 # app = FastAPI(lifespan=lifespan)
 app = FastAPI(lifespan=lifespan, redirect_slashes=False)
 
-
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
@@ -74,25 +73,40 @@ app.add_middleware(
     allow_methods=["*"], # Allows all methods
     allow_headers=["*"], # Allows all headers
 )
+
 app.add_middleware(SessionMiddleware, secret_key=CLIENT_ID)
 
-app.include_router(UserRouter, tags=["User"])
-app.include_router(PasswordRouter, tags=["Password"])
-app.include_router(AuthRouter, tags=["Auth"])
-app.include_router(WBRouter, tags=["Webhook"])
-app.include_router(DiscountRouter, tags=["Discount"])
-app.include_router(PaymentRouter, tags=["Payment"])
-app.include_router(PurchaseRouter, tags=['Purchases'])
-app.include_router(SubscriptionRouter, tags=['Subscription'])
-app.include_router(ProxyRouter, tags=["Proxies"])
-#app.include_router(APIIntegrationRouter, tags=["Integration"])
-app.include_router(StatRouter, tags=['AdminPanel'])
-app.include_router(PagesRouter, tags=['Pages'])
-app.include_router(GraphicRouter, tags=['Graphics'])
-app.include_router(CryptoRouter, tags=['Crypto'])
-app.include_router(NotifyRouter, tags=['Notifies'])
+api_router = APIRouter(prefix="/api")
+
+api_router.include_router(UserRouter,     prefix="/users",        tags=["User"])
+api_router.include_router(PasswordRouter, prefix="/password",     tags=["Password"])
+api_router.include_router(AuthRouter,     prefix="/auth",         tags=["Auth"])
+api_router.include_router(WBRouter,       prefix="/webhook",      tags=["Webhook"])
+api_router.include_router(DiscountRouter, prefix="/discount",     tags=["Discount"])
+api_router.include_router(PaymentRouter,  prefix="/payment",      tags=["Payment"])
+api_router.include_router(PurchaseRouter, prefix="/purchase",     tags=["Purchases"])
+api_router.include_router(SubscriptionRouter, prefix="/subscription", tags=["Subscription"])
+api_router.include_router(ProxyRouter,    prefix="/proxy",        tags=["Proxies"])
+api_router.include_router(StatRouter,     prefix="/stat",         tags=["AdminPanel"])
+api_router.include_router(PagesRouter,    prefix="/pages",        tags=["Pages"])
+api_router.include_router(GraphicRouter,  prefix="/graphic",      tags=["Graphics"])
+api_router.include_router(CryptoRouter,   prefix="/crypto",       tags=["Crypto"])
+api_router.include_router(NotifyRouter,   prefix="/notify",       tags=["Notifies"])
+
+
+app.include_router(api_router)
+
+# if __name__ == "__main__":
+#     import uvicorn
+
+#     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 if __name__ == "__main__":
     import uvicorn
+
+    print("=== REGISTERED ROUTES ===")
+    for route in app.routes:
+        print(f"{route.path:30} -> {route.methods}")
+    print("=========================")
 
     uvicorn.run(app, host="0.0.0.0", port=8000)
