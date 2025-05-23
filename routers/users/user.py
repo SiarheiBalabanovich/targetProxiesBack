@@ -359,9 +359,9 @@ async def create_user_json(
     payload: CreateUserPayload,
     db: AsyncSession = Depends(get_session)
 ):
-    # Проверка капчи (если требуется)
-    if not payload.recaptcha_token or not await verify_recaptcha(payload.recaptcha_token):
-        raise HTTPException(status_code=403, detail="Invalid captcha")
+    
+    # if not payload.recaptcha_token or not await verify_recaptcha(payload.recaptcha_token):
+    #     raise HTTPException(status_code=403, detail="Invalid captcha")
 
     user = await create_user(db, payload)
     if isinstance(user, dict):
