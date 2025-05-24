@@ -46,7 +46,7 @@ router = APIRouter()
 verifier = TokenVerifier()
 
 
-@router.post("/auth/token")
+@router.post("/token")
 async def auth(
         data: Annotated[OAuth2PasswordRequestForm, Depends()],
         remember: bool = False,
@@ -78,12 +78,12 @@ async def auth(
     return token
 
 
-@router.get("/auth/google-login")
+@router.get("/google-login")
 async def google_login(request: Request):
     return GOOGLE_REDIRECT_LINK
 
 
-@router.get(f'/auth/google/handle')
+@router.get(f'/google/handle')
 async def google_auth(
         code: str,
         request: Request,
@@ -141,7 +141,7 @@ async def google_auth(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get('/auth/register/email/send')
+@router.get('/register/email/send')
 async def _send_verification_email(
         email: str,
         db: AsyncSession = Depends(get_session)
@@ -160,7 +160,7 @@ async def _send_verification_email(
     return JSONResponse({"status": "success", 'content': 'OTP has been sent'}, status_code=200)
 
 
-@router.get('/auth/register/email/verify')
+@router.get('/register/email/verify')
 async def _send_verification_email(
         email: str,
         otp: str,
